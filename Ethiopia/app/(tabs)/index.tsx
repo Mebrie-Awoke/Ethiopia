@@ -15,7 +15,7 @@ const CATEGORIES = [
   { id: 3, title: 'Traditions', count: 27, image: require('@/assets/images/partial-react-logo.png') },
   { id: 4, title: 'Beliefs', count: 19, image: require('@/assets/images/partial-react-logo.png') },
 ];
-M
+Me
 const ARTICLES = [
   { id: 1, title: 'The Coffee Ceremony', time: 'A symbol of hospitality', image: require('@/assets/images/partial-react-logo.png') },
 ];
