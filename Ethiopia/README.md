@@ -14,5 +14,3 @@
    ```bash
    npx expo start
    ```
-
-
