@@ -1,23 +1,56 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 
-import { Header } from '@/components/header';
-import { SearchBar } from '@/components/search-bar';
-import { CategoryCard } from '@/components/cards';
 import { Section } from '@/components/section';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 
-const CATEGORIES = [
-  { id: 1, title: 'Culture', count: 52, image: require('@/assets/images/partial-react-logo.png') },
-  { id: 2, title: 'History', count: 38, image: require('@/assets/images/partial-react-logo.png') },
-  { id: 3, title: 'Traditions', count: 27, image: require('@/assets/images/partial-react-logo.png') },
-  { id: 4, title: 'Beliefs', count: 19, image: require('@/assets/images/partial-react-logo.png') },
+import type { IconSymbolName } from '@/components/ui/icon-symbol';
+
+const CATEGORIES: { id: string; title: string; description: string; icon: IconSymbolName; route: string }[] = [
+  {
+    id: 'culture',
+    title: 'Culture',
+    description: 'Explore traditional Ethiopian customs',
+    icon: 'leaf.fill',
+    route: '/culture',
+  },
+  {
+    id: 'history',
+    title: 'History',
+    description: 'Learn about Ethiopia’s past',
+    icon: 'book.fill',
+    route: '/history',
+  },
+  {
+    id: 'beliefs',
+    title: 'Beliefs',
+    description: 'Ask questions about faith and values',
+    icon: 'bubble.right.fill',
+    route: '/chat',
+  },
 ];
 
-const ARTICLES = [
-  { id: 1, title: 'The Coffee Ceremony', time: 'A symbol of hospitality', image: require('@/assets/images/partial-react-logo.png') },
+const FEATURES: { id: string; title: string; description: string; icon: IconSymbolName }[] = [
+  {
+    id: 'coffee-ceremony',
+    title: 'Coffee Ceremony',
+    description: 'A ritual of hospitality and community',
+    icon: 'cup.and.saucer.fill',
+  },
+  {
+    id: 'traditional-music-and-dance',
+    title: 'Traditional Music & Dance',
+    description: 'The rhythm of Ethiopian celebration',
+    icon: 'music.note',
+  },
+  {
+    id: 'ethiopian-cuisine',
+    title: 'Ethiopian Cuisine',
+    description: 'Discover the flavors of Ethiopian food',
+    icon: 'fork.knife',
+  },
 ];
 
 export default function HomeScreen() {
@@ -25,58 +58,45 @@ export default function HomeScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <Header
-          title="Welcome to Ethiopian"
-          image={require('@/assets/images/react-logo.png')}
-        />
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+        <View style={styles.header}>
+          <ThemedText style={styles.title}>Welcome to Ethiopia Knowledge App</ThemedText>
+          <ThemedText style={styles.subtitle}>Learn about culture, history, and traditions in a modern guide.</ThemedText>
+          <Image source={require('@/assets/images/flag.png')} style={styles.headerImage} />
+        </View>
 
-        {/* Search Bar */}
-        <SearchBar placeholder="Search topics, ask or explore..." />
-
-        {/* Explore Categories */}
-        <Section title="Explore Categories" onViewAll={() => router.push('/explore')}>
-          <View style={styles.categoriesGrid}>
-            {CATEGORIES.map((cat) => (
-              <CategoryCard
-                key={cat.id}
-                title={cat.title}
-                count={cat.count}
-                image={cat.image}
-                onPress={() => router.push(`/explore?category=${cat.title.toLowerCase()}`)}
-              />
+        <Section title="Quick Paths">
+          <View style={styles.categoryGrid}>
+            {CATEGORIES.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                style={styles.categoryCard}
+                onPress={() => router.push(item.route as any)}
+              >
+                <View style={styles.categoryIcon}>
+                  <IconSymbol name={item.icon} size={24} color="#FFF" />
+                </View>
+                <ThemedText style={styles.categoryTitle}>{item.title}</ThemedText>
+                <ThemedText style={styles.categoryDescription}>{item.description}</ThemedText>
+              </TouchableOpacity>
             ))}
           </View>
         </Section>
 
-        {/* Ask Ethiopian AI */}
-        <TouchableOpacity
-          style={styles.aiCard}
-          onPress={() => router.push('/chat')}
-        >
-          <View style={styles.aiContent}>
-            <ThemedText style={styles.aiTitle}>Ask Ethiopian AI</ThemedText>
-            <ThemedText style={styles.aiSubtitle}>Get smart answers about Ethiopia</ThemedText>
-            <View style={styles.aiButton}>
-              <ThemedText style={styles.aiButtonText}>Start Chat</ThemedText>
-            </View>
-          </View>
-          <View style={styles.aiIcon}>
-            <IconSymbol name="bubble.right" size={48} color="#1B5E5E" />
-          </View>
-        </TouchableOpacity>
-
-        {/* Continue Learning */}
-        <Section title="Continue Learning" onViewAll={() => {}}>
-          {ARTICLES.map((article) => (
+        <Section title="Featured Stories">
+          {FEATURES.map((item) => (
             <TouchableOpacity
-              key={article.id}
-              onPress={() => router.push(`/article/${article.id}`)}
-              style={styles.articleItem}
+              key={item.id}
+              style={styles.featureCard}
+              onPress={() => router.push(`/detail/${item.id}`)}
             >
-              <ThemedText style={styles.articleTitle}>{article.title}</ThemedText>
-              <ThemedText style={styles.articleSubtitle}>{article.time}</ThemedText>
+              <View style={styles.featureIcon}>
+                <IconSymbol name={item.icon} size={26} color="#1B5E5E" />
+              </View>
+              <View style={styles.featureText}>
+                <ThemedText style={styles.featureTitle}>{item.title}</ThemedText>
+                <ThemedText style={styles.featureDescription}>{item.description}</ThemedText>
+              </View>
             </TouchableOpacity>
           ))}
         </Section>
@@ -89,64 +109,98 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  categoriesGrid: {
+  content: {
+    paddingBottom: 32,
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingTop: 24,
+    paddingBottom: 16,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    marginBottom: 8,
+    color: '#1B5E5E',
+  },
+  subtitle: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: '#4A4A4A',
+  },
+  headerImage: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover',
+    borderRadius: 12,
+    marginTop: 16,
+  },
+  categoryGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    paddingHorizontal: 8,
+    paddingHorizontal: 12,
   },
-  aiCard: {
-    flexDirection: 'row',
+  categoryCard: {
+    width: '48%',
+    backgroundColor: '#F7F4E9',
+    borderRadius: 20,
+    padding: 18,
+    marginBottom: 12,
+  },
+  categoryIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
     backgroundColor: '#1B5E5E',
-    marginHorizontal: 16,
-    marginVertical: 16,
-    borderRadius: 16,
-    padding: 20,
+    justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 12,
   },
-  aiContent: {
+  categoryTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 6,
+  },
+  categoryDescription: {
+    fontSize: 13,
+    lineHeight: 18,
+    color: '#5D5D5D',
+  },
+  featureCard: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 18,
+    padding: 18,
+    marginHorizontal: 16,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
+  },
+  featureIcon: {
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: '#F4EDD6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 16,
+  },
+  featureText: {
     flex: 1,
-    marginRight: 12,
+    justifyContent: 'center',
   },
-  aiTitle: {
-    color: '#FFF',
+  featureTitle: {
     fontSize: 16,
     fontWeight: '700',
     marginBottom: 4,
   },
-  aiSubtitle: {
-    color: '#D0D0D0',
+  featureDescription: {
     fontSize: 13,
-    marginBottom: 12,
-  },
-  aiButton: {
-    backgroundColor: '#FFF',
-    borderRadius: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    alignSelf: 'flex-start',
-  },
-  aiButtonText: {
-    color: '#1B5E5E',
-    fontWeight: '600',
-    fontSize: 13,
-  },
-  aiIcon: {
-    opacity: 0.3,
-  },
-  articleItem: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E8E8E8',
-  },
-  articleTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  articleSubtitle: {
-    fontSize: 12,
-    color: '#999',
+    color: '#666',
+    lineHeight: 19,
   },
 });

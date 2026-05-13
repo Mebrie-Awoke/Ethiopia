@@ -6,7 +6,7 @@ import { ComponentProps } from 'react';
 import { OpaqueColorValue, type StyleProp, type TextStyle } from 'react-native';
 
 type IconMapping = Record<SymbolViewProps['name'], ComponentProps<typeof MaterialIcons>['name']>;
-type IconSymbolName = keyof typeof MAPPING;
+export type IconSymbolName = keyof typeof MAPPING;
 
 /**
  * Add your SF Symbols to Material Icons mappings here.
@@ -15,9 +15,31 @@ type IconSymbolName = keyof typeof MAPPING;
  */
 const MAPPING = {
   'house.fill': 'home',
-  'paperplane.fill': 'send',
+  'magnifyingglass': 'search',
+  'bookmark.fill': 'bookmark',
+  'bubble.right.fill': 'chat_bubble',
+  'bubble.right': 'chat_bubble_outline',
+  'gear': 'settings',
+  'clock.badge.checkmark.fill': 'check_circle',
+  'arrow.backward': 'arrow_back',
+  'square.and.arrow.up': 'share',
+  'bookmark': 'bookmark',
+  'heart.fill': 'favorite',
+  'heart': 'favorite_border',
+  'checkmark': 'check',
+  'speaker.wave.2.circle.fill': 'volume_up',
+  'arrow.up.fill': 'arrow_upward',
+  'leaf.fill': 'eco',
+  'music.note': 'music_note',
+  'fork.knife': 'restaurant',
+  'cup.and.saucer.fill': 'local_cafe',
+  'globe.europe.africa.fill': 'public',
+  'sparkles': 'stars',
+  'book.fill': 'menu_book',
+  'history': 'history',
+  'code': 'code',
   'chevron.left.forwardslash.chevron.right': 'code',
-  'chevron.right': 'chevron-right',
+  'chevron.right': 'chevron_right',
 } as IconMapping;
 
 /**
