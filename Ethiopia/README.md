@@ -8,7 +8,7 @@
    ```bash
    npm install
    ```
-Mebrie awo
+Mebrie aw
 2. Start the app
 
    ```bash
