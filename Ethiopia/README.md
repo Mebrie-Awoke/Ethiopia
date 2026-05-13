@@ -8,7 +8,7 @@
    ```bash
    npm install
    ```
-Meb
+Me
 2. Start the app
 
    ```bash
