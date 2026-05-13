@@ -8,7 +8,7 @@
    ```bash
    npm install
    ```
-Mebrie awoke 
+Mebrie awok
 2. Start the app
 
    ```bash
