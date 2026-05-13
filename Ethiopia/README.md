@@ -8,7 +8,7 @@
    ```bash
    npm install
    ```
-Mebrie 
+Mebri
 2. Start the app
 
    ```bash
